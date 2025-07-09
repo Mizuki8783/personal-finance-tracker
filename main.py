@@ -127,17 +127,17 @@ def main():
                 pass
                 # show_top_spending_category()
             elif choice == 9:
-                pass
-                # set_monthly_income()
+                income_budget_dict = set_monthly_income(income_budget_dict)
             elif choice == 10:
-                pass
-                # set_category_budget()
+                income_budget_dict = set_category_budget(income_budget_dict)
             elif choice == 11:
-                pass
-                # check_budget_status()
+                # Check if budgets have been set before checking status
+                if sum(v for k, v in income_budget_dict.items() if k != 'income') == 0:
+                    print("\nNo budgets set. Please set a budget first using option 10.")
+                else:
+                    check_budget_status(data, income_budget_dict)
             elif choice == 12:
-                pass
-                # visualize_spending_trends()
+                plot_income_vs_spending(data, income_budget_dict)
             elif choice == 13:
                 filename = input("Enter filename to save (e.g., transactions.csv): ")
                 save_transactions(data, filename)
