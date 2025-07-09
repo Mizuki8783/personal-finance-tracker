@@ -9,6 +9,8 @@ from data_management import *
 from budget_analysis import *
 from visualization import *
 
+pd.set_option('display.max_columns', None)
+
 def initialize_app():
     while True:
         data_file_path = input("Enter the path to your CSV file: ")
@@ -70,9 +72,10 @@ def get_user_choice():
     except ValueError:
         print("Please enter a valid number.")
         return None
+
     except KeyboardInterrupt:
-        print("\nOperation cancelled.")
-        return None
+        print("\n\nExiting the Personal Finance Tracker. Goodbye!")
+        sys.exit(0)
 
 def main():
     data = initialize_app()
@@ -118,14 +121,11 @@ def main():
                 data = delete_transaction(data, index)
 
             elif choice == 6:
-                pass
-                # analyze_spending_by_category()
+                analyze_spending_by_category(data)
             elif choice == 7:
-                pass
-                # calculate_average_monthly_spending()
+                calculate_average_monthly_spending(data)
             elif choice == 8:
-                pass
-                # show_top_spending_category()
+                show_top_spending_category(data)
             elif choice == 9:
                 pass
                 # set_monthly_income()
@@ -141,14 +141,11 @@ def main():
             elif choice == 13:
                 filename = input("Enter filename to save (e.g., transactions.csv): ")
                 save_transactions(data, filename)
-                
+
             elif choice == 14:
                 print("\nExiting the Personal Finance Tracker. Goodbye!")
                 break
 
-        except KeyboardInterrupt:
-            print("\n\nExiting the Personal Finance Tracker. Goodbye!")
-            break
         except Exception as e:
             print(f"An unexpected error occurred: {str(e)}")
             print("Please try again.")
