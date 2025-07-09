@@ -95,20 +95,28 @@ def main():
             if choice is None:
                 continue
             elif choice == 1:
-                pass
-                # view_all_transactions()
+                 view_all_transactions(data)
+
             elif choice == 2:
-                pass
-                # view_transactions_by_date_range()
+                start_date = input("Enter start date (YYYY-MM-DD): ")
+                end_date = input("Enter end date (YYYY-MM-DD): ")
+                view_transactions_by_date(data, start_date, end_date)
+
             elif choice == 3:
-                pass
-                # add_transaction()
+                date = input("Enter date (YYYY-MM-DD): ")
+                category = input("Enter category: ")
+                description = input("Enter description: ")
+                amount = input("Enter amount: ")
+                data = add_transaction(data, date, category, description, amount)
+
             elif choice == 4:
-                pass
-                # edit_transaction()
+                index = input("Enter the index of the transaction to edit: ")
+                data = edit_transaction(data, index)
+
             elif choice == 5:
-                pass
-                # delete_transaction()
+                index = input("Enter the index of the transaction to delete: ")
+                data = delete_transaction(data, index)
+
             elif choice == 6:
                 pass
                 # analyze_spending_by_category()
@@ -131,8 +139,9 @@ def main():
                 pass
                 # visualize_spending_trends()
             elif choice == 13:
-                pass
-                # save_transactions_to_csv()
+                filename = input("Enter filename to save (e.g., transactions.csv): ")
+                save_transactions(data, filename)
+                
             elif choice == 14:
                 print("\nExiting the Personal Finance Tracker. Goodbye!")
                 break
