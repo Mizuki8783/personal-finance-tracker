@@ -41,7 +41,7 @@ def display_menu():
     print("\n" + "="*40)
     print("    Personal Finance Tracker")
     print("="*40)
-    print("1.  View All Transactions")
+    print("1.  View Transactions")
     print("2.  View Transactions by Date Range")
     print("3.  Add a Transaction")
     print("4.  Edit a Transaction")
