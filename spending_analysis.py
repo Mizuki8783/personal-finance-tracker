@@ -1,5 +1,7 @@
 import pandas as pd
 from datetime import datetime
+import warnings
+warnings.filterwarnings('ignore', category=FutureWarning)
 
 def analyze_spending_by_category(df):
     """Analyze total spending by category"""
@@ -36,25 +38,18 @@ def calculate_average_monthly_spending(df):
             print("No transactions found.")
             return
 
-        # Filter only expense transactions
-        expense_df = df[df['Type'] == 'Expense']
+        expense_df = df[df['Type'] == 'Expense'].copy()
 
-        if expense_df.empty:
-            print("No expense transactions found.")
-            return
-
-        # Extract year-month from dates
-        expense_df = expense_df.copy()
         expense_df['Month'] = expense_df['Date'].astype("datetime64[ns]").dt.to_period('M')
+        monthly_total_spending = expense_df.groupby('Month').agg({'Amount': 'sum'})
 
-        # Calculate monthly totals
-        monthly_average_spending = expense_df.groupby('Month')['Amount'].mean()
+        monthly_average_spending = monthly_total_spending.resample('Y').mean().reset_index().rename(columns={'Month': 'Year'})
 
         print("\n--- Average Monthly Spending ---")
-        print(f"{'Month':<20} {'Amount':<10}")
-        print("-" * 30)
-        for month, amount in monthly_average_spending.items():
-            print(f"{str(month):<20} ${amount:.2f}")
+        print(f"{'Year':<10} {'Amount':<10}")
+        print("-" * 20)
+        for _, row in monthly_average_spending.iterrows():
+            print(f"{str(row['Year']):<10} ${row['Amount']:.2f}")
 
     except Exception as e:
         print(f"Error calculating average monthly spending: {str(e)}")

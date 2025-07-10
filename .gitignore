@@ -4,4 +4,4 @@
 __pycache__/
 uv.lock
 pyproject.toml
-sampledata.csv
+sample_data.csv

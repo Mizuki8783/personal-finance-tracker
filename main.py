@@ -8,6 +8,10 @@ import pandas as pd
 from data_management import *
 from budget_analysis import *
 from visualization import *
+from spending_analysis import *
+
+import warnings
+warnings.filterwarnings('ignore', category=FutureWarning)
 
 pd.set_option('display.max_columns', None)
 
@@ -80,15 +84,13 @@ def get_user_choice():
 def main():
     data = initialize_app()
 
-    income_budget_dict = {  # Alf, you can modify categories here
-        "income": 0,
-        "food": 0,
-        "housing": 0,
-        "transportation": 0,
-        "utilities": 0,
-        "entertainment": 0,
-        "other": 0
-        }
+    income_budget_dict = {
+        "Income": 0,
+    }
+
+    for category in data['Category'].unique():
+        income_budget_dict[category] = 0
+
 
     while True:
         try:
@@ -122,22 +124,29 @@ def main():
 
             elif choice == 6:
                 analyze_spending_by_category(data)
+
             elif choice == 7:
                 calculate_average_monthly_spending(data)
+
             elif choice == 8:
                 show_top_spending_category(data)
+
             elif choice == 9:
                 income_budget_dict = set_monthly_income(income_budget_dict)
+
             elif choice == 10:
                 income_budget_dict = set_category_budget(income_budget_dict)
+
             elif choice == 11:
                 # Check if budgets have been set before checking status
                 if sum(v for k, v in income_budget_dict.items() if k != 'income') == 0:
                     print("\nNo budgets set. Please set a budget first using option 10.")
                 else:
                     check_budget_status(data, income_budget_dict)
+
             elif choice == 12:
-                plot_income_vs_spending(data, income_budget_dict)
+                visualize_spending_trends(data, income_budget_dict)
+
             elif choice == 13:
                 filename = input("Enter filename to save (e.g., transactions.csv): ")
                 save_transactions(data, filename)
